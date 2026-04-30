@@ -5,9 +5,11 @@ const rooms = {};
 export default (server) => {
   const io = new Server(server, {
     cors: {
-      origin: process.env.FRONTEND_URL || '*',
-      methods: ['GET', 'POST']
-    }
+      origin: "*", // Allow all origins for easier deployment troubleshooting
+      methods: ['GET', 'POST'],
+      credentials: false
+    },
+    transports: ['websocket', 'polling'] // Ensure both are supported
   });
 
   io.on('connection', (socket) => {
