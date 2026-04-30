@@ -14,6 +14,11 @@ export default (server) => {
     console.log(`User connected: ${socket.id}`);
 
     socket.on('join_room', ({ roomId, username }) => {
+      // If the socket was already in a room, clean up the old room state
+      if (socket.roomId && socket.roomId !== roomId) {
+        handleDisconnect(socket, io);
+      }
+
       socket.join(roomId);
 
       if (!rooms[roomId]) {

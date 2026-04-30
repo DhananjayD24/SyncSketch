@@ -53,7 +53,6 @@ export default function CanvasRoom() {
     });
 
     return () => {
-      socket.emit('leave_room');
       socket.off('room_data');
       socket.off('drawing_toggled');
       socket.off('canvas_bg_changed');

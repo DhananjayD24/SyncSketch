@@ -20,6 +20,15 @@ export default function JoinRoom() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // If the user navigates back to the landing page, ensure they leave any previous room
+    import('../socket').then(({ socket }) => {
+      if (socket.connected) {
+        socket.emit('leave_room');
+      }
+    });
+  }, []);
+
   const handleJoin = (e) => {
     e.preventDefault();
     if (!username.trim()) {
