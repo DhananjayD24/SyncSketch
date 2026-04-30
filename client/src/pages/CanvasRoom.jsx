@@ -4,7 +4,7 @@ import { socket } from '../socket';
 import Canvas from '../components/Canvas';
 import Toolbar from '../components/Toolbar';
 import UsersList from '../components/UsersList';
-import { LogOut, Users, Share2, Check } from 'lucide-react';
+import { LogOut, Users, Share2, Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function CanvasRoom() {
@@ -113,6 +113,17 @@ export default function CanvasRoom() {
     toast.success('Room link copied!');
     setTimeout(() => setIsCopied(false), 2000);
   };
+
+  // Wait until we receive the room data from the server before rendering
+  if (!roomData.host) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#0a0a0a] text-white">
+        <Loader2 className="w-10 h-10 animate-spin text-indigo-500 mb-4" />
+        <h2 className="text-xl font-semibold">Connecting to room...</h2>
+        <p className="text-gray-500 text-sm mt-2">Waiting for server response</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] overflow-hidden font-sans">
